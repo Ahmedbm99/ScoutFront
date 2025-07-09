@@ -85,7 +85,7 @@ const [supervisorData, setSupervisorData] = useState({
   const handleAddSupervisor = async () => {
   try {
     // 1. Création sans supervisorId
-    const res = await ScoutService.addScout({
+    const res = await ScoutService.addSupervisor({
       ...supervisorData,
       supervisorId: null
     });
