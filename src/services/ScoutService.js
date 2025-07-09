@@ -1,0 +1,37 @@
+import Api from "./Api";
+const ScoutService = {
+
+    getScoutList() {
+        return Api().get("/api/scout/getScoutBySupervisor", {withCredentials: true});},
+    getSuperviserList() {
+        return Api().get("/api/scout/getSuperviseUsers", { withCredentials: true });},
+    addSupervisor(credentials) {
+        return Api().post("/api/scout/addSupervisor",{ withCredentials: true }, credentials);},
+    getScoutById(id) {
+        return Api().get(`/api/scout/getScoutById/${id}`);
+    },
+    getScoutByName(name) {
+        return Api().get(`/api/scout/getScoutByName/${name}`);
+    },
+    getUserTasks(userId) {
+        return Api().get(`/api/scout/getUserTasks/${userId}`);
+    },
+    deleteUserTask(userId, taskId) {
+        return Api().delete(`/api/scout/deleteUserTask/${userId}/${taskId}`);
+    },
+    addUserTask(credentials) {
+        return Api().post("/api/scout/addUserTask", credentials);
+    },
+    addScout(credentials) {
+        return Api().post("/api/register-member", credentials);
+    },
+    updateScout(credentials) {
+        return Api().put("/api/scout/updateScout", credentials);
+    },
+    deleteScout(journeyId) {
+        return Api().delete(`/api/scout/deleteScout/${journeyId}`);
+    },
+
+};
+
+export default ScoutService;
