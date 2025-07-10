@@ -6,7 +6,7 @@ import { MultiSelect } from "primereact/multiselect";
 import { Tag } from "primereact/tag";
 import { Card } from "primereact/card";
 
-export default function AdminUserProgression({ users }) {
+export default function AdminUserProgression({role, users }) {
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [progressions, setProgressions] = useState([]);
   const [loading, setLoading] = useState(false);

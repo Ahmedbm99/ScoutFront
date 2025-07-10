@@ -6,7 +6,7 @@ const createApi = () => {
   const token = user?.token;
 
   return axios.create({
-    
+   
     baseURL: `https://scoutback.onrender.com`,
        headers: token
       ? {
@@ -14,6 +14,6 @@ const createApi = () => {
         }
       : {},
   });
-};
+}; 
 
 export default createApi;

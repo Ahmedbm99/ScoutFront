@@ -62,16 +62,22 @@ const Home = () => {
     setUser(currentUser);
     if (currentUser?.isAdmin) {
       UserTaskService.getPendingUserTasks().then(setPendingTasks);
-      loadUsers();
+      loadUsers(currentUser.role);
       loadPendingTasks();
       loadSupervisors();
     }
   }, []);
 
-  const loadUsers = async () => {
+  const loadUsers = async (role) => {
+    console.log("user role:", role);
     try {
+      if (role === "supervisor") {
       const res = await ScoutService.getScoutList();
       setUserList(res.data);
+      } else  if (role === "consultant") {
+        const res = await ScoutService.getAllScouts();
+        setUserList(res.data);
+      }
     } catch (error) {
       toast.current?.show({
         severity: "error",
@@ -238,7 +244,7 @@ const Home = () => {
               label="📋 Liste des utilisateurs"
               className="mb-2"
               onClick={() => {
-                loadUsers();
+                loadUsers(user?.role);
                 setShowUserList(true);
               }}
             />
@@ -248,7 +254,7 @@ const Home = () => {
               onClick={() => setShowAllPendingDialog(true)}
             />
             <div className="w-full mt-4">
-              <AdminUserProgression users={userList} />
+              <AdminUserProgression role={user.role} users={userList}  />
             </div>
           </div>
         ) : (

@@ -1,6 +1,9 @@
 import Api from "./Api";
 const ScoutService = {
 
+    getAllScouts() {
+        return Api().get("/api/scout/getAllScouts");},
+
     getScoutList() {
         return Api().get("/api/scout/getScoutBySupervisor", )},
     getSuperviserList() {
