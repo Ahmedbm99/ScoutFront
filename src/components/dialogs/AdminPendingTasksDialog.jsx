@@ -129,7 +129,7 @@ const AdminPendingTasksDialog = ({ visible, onHide, pendingTasks,  onTaskUpdated
             body={(rowData) =>
               rowData.justificationMedia ? (
                 <img
-                  src={`https://scoutback.onrender.com:10000/uploads/${rowData.justificationMedia}`}
+                  src={`https://scoutback.onrender.com/uploads/${rowData.justificationMedia}`}
                   alt="Justification"
                   style={{ width: "100%", maxWidth: "120px", borderRadius: "8px" }}
                 />
