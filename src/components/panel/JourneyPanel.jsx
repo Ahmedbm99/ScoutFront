@@ -18,10 +18,10 @@ export default function JourneyPanel() {
   const [journeys, setJourneys] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-   const [users, setUsers] = useState([]);
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [checkedByUser, setCheckedByUser] = useState({});
+   const [ setUsers] = useState([]);
+ 
 
+const [userTasksDone, setUserTasksDone] = useState([]);
   // États pour dialogue justification
   const [justifyDialogVisible, setJustifyDialogVisible] = useState(false);
   const [currentJustifyTask, setCurrentJustifyTask] = useState(null);
@@ -43,10 +43,12 @@ export default function JourneyPanel() {
 useEffect(() => {
   const currentUser = AuthenticationService.getCurrentUser();
   setUser(currentUser);
+  fetchUserTasksDone(currentUser);
 }, []);
 
 useEffect(() => {
   if (user) {
+    
     fetchData();
   }
 }, [user]);
@@ -81,7 +83,7 @@ today.setHours(0, 0, 0, 0); // ignore l'heure exacte
 
 let resultJourneys = Object.values(journeysMap);
       
-if (!user.user.isAdmin) {
+if (!user.isAdmin) {
   
   resultJourneys = resultJourneys.filter((journey) => {
     const journeyDate = new Date(journey.date || journey.createdAt); // adapte à ton modèle
@@ -114,7 +116,17 @@ setJourneys(resultJourneys);
       setLoading(false);
     }
   };
+const fetchUserTasksDone = async (user) => {
+  if (!user) return;
+  try {
+    const res = await UserTaskService.getUserDoneTasks(user.id);
+    console.log("User tasks done response:", res);
+    setUserTasksDone(res.map(ut => ut.Task.id));
 
+  } catch (error) {
+    console.error("Erreur chargement UserTasks :", error);
+  }
+};
   // Ouvre dialogue justification (utilisateur simple)
   const openJustificationDialog = (journeyId, taskIndex, task) => {
     setCurrentJustifyTask({ journeyId, taskIndex, task });
@@ -127,7 +139,7 @@ setJourneys(resultJourneys);
 
     try {
       const formData = new FormData();
-      formData.append("UserId", user.user.id);
+      formData.append("LeaderId", user.id);
       formData.append("TaskId", currentJustifyTask.task.id);
       formData.append("justificationComment", comment);
       if (media) formData.append("media", media);
@@ -165,7 +177,7 @@ setJourneys(resultJourneys);
 
   // Gestion du clic sur checkbox tâche
   const onTaskCheckboxChange = (journeyId, taskIndex, task) => {
-    if (user.user.isAdmin) {
+    if (user.isAdmin) {
       // Admin ne coche pas ici (à adapter si besoin)
     } else {
       openJustificationDialog(journeyId, taskIndex, task);
@@ -332,7 +344,7 @@ setJourneys(resultJourneys);
             ) : (
               <>
                 🚍 {journey.theme} - Jour #{journey.number}
-                {user.user.isAdmin && (
+                {user.isAdmin && (
                   <>
                     <Button
                       icon="pi pi-pencil"
@@ -358,9 +370,9 @@ setJourneys(resultJourneys);
                 <div className="flex items-center">
                   <Checkbox
                     inputId={`task-${journey.id}-${index}`}
-                    checked={task.isCompleted}
+                    checked={userTasksDone.includes(task.id)}
                     onChange={() => onTaskCheckboxChange(journey.id, index, task)}
-                    disabled={user.user.isAdmin}
+                    disabled={userTasksDone.includes(task.id) || user.isAdmin}
                   />
                   {editingTaskId === task.id ? (
                     <>
@@ -378,7 +390,7 @@ setJourneys(resultJourneys);
                     </label>
                   )}
                 </div>
-                {user.user.isAdmin && editingTaskId !== task.id && (
+                {user.isAdmin && editingTaskId !== task.id && (
                   <div className="flex space-x-2">
                     <Button icon="pi pi-pencil" className="p-button-rounded p-button-text" onClick={() => startEditTask(task)} />
                     <Button icon="pi pi-trash" className="p-button-rounded p-button-text p-button-danger" onClick={() => confirmDeleteTask(task.id)} />
@@ -386,7 +398,7 @@ setJourneys(resultJourneys);
                 )}
               </li>
             ))}
-            {user.user.isAdmin && (
+            {user.isAdmin && (
               <li className="mt-2 flex items-center">
                 <InputText
                   placeholder="Nouvelle tâche"

@@ -22,6 +22,7 @@ const UserTaskService = {
 
   async approveUserTask(id, data) {
     try  {
+      console.log(data);
         const response = await Api().put(`/api/scout-task/${id}/approve`, data);
         return response.data;
     }catch (error) {
@@ -39,10 +40,9 @@ const UserTaskService = {
         throw error;
         }
     },
-    async  getUsersProgressions(userIds) {
-  const ids = userIds.join(",");
-  const response = await Api().get(`/api/scout-task/users-progressions/${ids}`);
-  return response.data;
+ getUsersProgressions(userIds) {
+  console.log("Fetching progressions for user IDs:", userIds);
+  return Api().get(`/api/scout-task/users-progressions/${userIds.join(",")}`);
 },
     async deleteUserTask(userId, taskId) {
         try {
@@ -78,6 +78,16 @@ async submitUserTaskJustification(formData) {
     throw error;
   }
 },
+
+async getUserDoneTasks(leaderId) {
+  try {
+    const response = await Api().get(`/api/user-tasks/done/${leaderId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user done tasks:", error);
+    throw error;
+  }
+}
 };
 export default UserTaskService;
    

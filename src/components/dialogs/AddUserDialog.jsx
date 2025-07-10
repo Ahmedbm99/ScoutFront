@@ -5,6 +5,7 @@ import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 
 const AddUserDialog = ({ visible, onHide, newUserData, setNewUserData, onSave, supervisors }) => (
+
   <Dialog header="Ajouter un utilisateur" visible={visible} style={{ width: "400px" }} modal onHide={onHide}>
     <div className="p-fluid">
       <label>Nom d'utilisateur</label>

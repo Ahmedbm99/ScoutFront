@@ -2,11 +2,11 @@ import Api from "./Api";
 const ScoutService = {
 
     getScoutList() {
-        return Api().get("/api/scout/getScoutBySupervisor", {withCredentials: true});},
+        return Api().get("/api/scout/getScoutBySupervisor", )},
     getSuperviserList() {
-        return Api().get("/api/scout/getSuperviseUsers", { withCredentials: true });},
+        return Api().get("/api/scout/getSuperviseUsers", )},
     addSupervisor(credentials) {
-        return Api().post("/api/scout/addSupervisor",{ withCredentials: true }, credentials);},
+        return Api().post("/api/scout/addSupervisor", credentials)},
     getScoutById(id) {
         return Api().get(`/api/scout/getScoutById/${id}`);
     },
@@ -25,8 +25,8 @@ const ScoutService = {
     addScout(credentials) {
         return Api().post("/api/register-member", credentials);
     },
-    updateScout(credentials) {
-        return Api().put("/api/scout/updateScout", credentials);
+    updateScout(userId,credentials) {
+        return Api().put(`/api/scout/updateScout/${userId}`, credentials);
     },
     deleteScout(journeyId) {
         return Api().delete(`/api/scout/deleteScout/${journeyId}`);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from "react-router-dom";
 import SignIn from './pages/SignIn/SignIn';
-import Home from './pages/Home/Home1'; // Page admin
+import Home from './pages/Home/Home'; // Page admin
 import AuthenticationService from './services/AuthenticationService';
 
 const PrivateRoute = ({ adminOnly = false, userOnly = false, element }) => {

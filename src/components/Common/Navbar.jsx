@@ -13,8 +13,17 @@ export default function Navbar({ username = "Scouty" }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    // Supprimer le token ou toute autre info de session
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   const logo = (
-    <div className="flex align-items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
+    <div
+      className="flex align-items-center gap-2 cursor-pointer"
+      onClick={() => navigate("/")}
+    >
       <img src="#" alt="logo" height="40" className="mr-2" />
       <span className="font-bold text-xl">Safari</span>
     </div>
@@ -23,7 +32,18 @@ export default function Navbar({ username = "Scouty" }) {
   const end = (
     <div className="flex align-items-center gap-3">
       <span className="font-semibold">{username}</span>
-      <Avatar icon="pi pi-cog" shape="circle" className="cursor-pointer" onClick={() => setShowDialog(true)} />
+      <Avatar
+        icon="pi pi-cog"
+        shape="circle"
+        className="cursor-pointer"
+        onClick={() => setShowDialog(true)}
+      />
+      <Button
+        icon="pi pi-sign-out"
+        className="p-button-text p-button-sm"
+        label="Déconnexion"
+        onClick={handleLogout}
+      />
     </div>
   );
 
@@ -33,7 +53,7 @@ export default function Navbar({ username = "Scouty" }) {
       return;
     }
 
-    // Logique à implémenter pour changement mot de passe
+    // Logique pour modifier le mot de passe (API à appeler)
     alert("Mot de passe modifié avec succès !");
     setShowDialog(false);
   };
@@ -81,7 +101,11 @@ export default function Navbar({ username = "Scouty" }) {
           </span>
 
           <div className="flex justify-content-end mt-4">
-            <Button label="Annuler" className="p-button-text mr-2" onClick={() => setShowDialog(false)} />
+            <Button
+              label="Annuler"
+              className="p-button-text mr-2"
+              onClick={() => setShowDialog(false)}
+            />
             <Button label="Modifier" onClick={handleChangePassword} />
           </div>
         </div>
