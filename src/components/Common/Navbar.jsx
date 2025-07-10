@@ -24,7 +24,7 @@ export default function Navbar({ username = "Scouty" }) {
       className="flex align-items-center gap-2 cursor-pointer"
       onClick={() => navigate("/home")}
     >
-      <img src="../../../public/logo.jpg" alt="logo" height="60" className="mr-2" />
+      <img src="/logo.jpg" alt="logo" height="60" className="mr-2" />
       <span className="font-bold text-xl">العبور</span>
     </div>
   );
